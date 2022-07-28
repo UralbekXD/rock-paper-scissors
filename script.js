@@ -3,6 +3,7 @@ let userScore = 0,
     compScore = 0;
 
 function game() {
+    let finalMessage = "Result: ";
 
     for (let i = 0; i < rounds; i++) {
         let userChoice = prompt("Pick one of these: Rock, Paper, Scissors");
@@ -11,13 +12,11 @@ function game() {
         console.log(i + 1, result);
     }
 
-    if (userScore > compScore) {
-        console.log("Player is Winner");
-    } else if (userScore < compScore) {
-        console.log("Computer is Winner");
-    } else {
-        console.log("Draw!");
-    }
+    finalMessage += (userScore > compScore) ?
+        "You Won!" : (userScore < compScore) ?
+            "You Lose!" : "Draw!";
+    
+    console.log(`${finalMessage} Score: ${userScore}-${compScore}`);
 }
 
 
