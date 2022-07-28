@@ -5,7 +5,6 @@ let userScore = 0,
 function game() {
 
     for (let i = 0; i < rounds; i++) {
-        console.log(userScore, compScore);
         let userChoice = prompt("Pick one of these: Rock, Paper, Scissors");
         let result = playRound(userChoice, getComputerChoice());
 
