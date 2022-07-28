@@ -1,5 +1,7 @@
 # **Rock Paper Scissors**
 
+**[Live](https://uralbekxd.github.io/rock-paper-scissors/)**
+
 ## About
 This is a simple console game written in Vanilla Javascript.
 This project consider basic knowledge:
