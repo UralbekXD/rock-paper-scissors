@@ -48,6 +48,8 @@ function playRound(playerSelection, computerSelection) {
         isDraw = true;
     }
 
+    playerSelection = capitalize(playerSelection);
+    computerSelection = capitalize(computerSelection);
     let message = (isDraw) ? "It's Draw!" :
         (isWon) ? `You Win! ${playerSelection} beats ${computerSelection}` :
         `You Lose! ${computerSelection} beats ${playerSelection}`;
