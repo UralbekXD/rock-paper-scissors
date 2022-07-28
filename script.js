@@ -5,6 +5,10 @@ function getComputerChoice() {
     return arr[randomIndex];
 }
 
+function capitalize(word) {
+    return word[0].toUpperCase() + word.slice(1);
+}
+
 function playRound(playerSelection, computerSelection) {
     let isDraw = false;
     let isWon = false;
