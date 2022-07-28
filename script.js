@@ -63,3 +63,28 @@ function playRound(playerSelection, computerSelection) {
 
     return message;
 }
+
+
+function game() {
+    // Number of rounds
+    let rounds = 5;
+    let userScore = 0,
+        compScore = 0;
+
+    for (let i = 0; i < rounds; i++) {
+        let userChoice = prompt("Rock, Paper, Scissors");
+        let result = playRound(userChoice, getComputerChoice());
+
+        console.log(i+1, result);
+    }
+
+    if (userScore > compScore) {
+        console.log("Player is Winner");
+    } else if (userScore < compScore) {
+        console.log("Computer is Winner");
+    } else {
+        console.log("Draw!");
+    }
+}
+
+game();
