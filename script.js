@@ -1,15 +1,27 @@
-let rounds = 5;
-let userScore = 0,
-    compScore = 0;
+const Items = Object.freeze({
+    Rock: "rock",
+    Paper: "paper",
+    Scissors: "scissors",
+});
+
+const Results = Object.freeze({
+    Player: "player",
+    Computer: "computer",
+    Draw: "draw",
+})
+
+const ROUNDS = 5;
+let userScore = 0, compScore = 0;
+
 
 function game() {
     let finalMessage = "Result: ";
 
-    for (let i = 0; i < rounds; i++) {
-        let userChoice = prompt("Pick one of these: Rock, Paper, Scissors");
-        let result = playRound(userChoice, getComputerChoice());
-
-        console.log(i + 1, result);
+    for (let i = 1; i <= ROUNDS; i++) {
+        playRound(
+            getPlayerChoice(),
+            getComputerChoice(),
+        );
     }
 
     finalMessage += (userScore > compScore) ?
@@ -21,62 +33,54 @@ function game() {
 
 
 function playRound(playerSelection, computerSelection) {
-    let isDraw = false;
-    let isWon = false;
-    playerSelection = playerSelection.toLowerCase();
+    /**
+     * rock beats scissors
+     * scissors beats paper
+     * paper beats rock
+     * if players picked same thing it's Draw
+    **/
 
-    // rock beats scissors
-    // scissors beats paper
-    // paper beats rock
-    // if two of us picked same thing then Tie
+    const result = decideWinner(playerSelection, computerSelection);
 
-    if (playerSelection !== computerSelection) {
+    switch (result) {
+        case Results.Player:
+            userScore++;
+            console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
+            break
 
-        switch (playerSelection) {
+        case Results.Computer:
+            compScore++;
+            console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
+            break
 
-            // Rock
-            case "rock":
-                if (computerSelection === "scissors")
-                    isWon = true;
-
-                break;
-
-            // Paper
-            case "paper":
-                if (computerSelection === "rock")
-                    isWon = true;
-
-                break;
-
-            // Scissors
-            case "scissors":
-                if (computerSelection === "paper")
-                    isWon = true;
-
-                break;
-        }
-    } else {
-        isDraw = true;
+        case Results.Draw:
+            console.log("It's Draw!");
+            break
     }
-
-    playerSelection = capitalize(playerSelection);
-    computerSelection = capitalize(computerSelection);
-    let message;
-
-    if (isDraw)
-        return "It's Draw!";
-
-    if (isWon) {
-        message = `You Win! ${playerSelection} beats ${computerSelection}`
-        userScore++;
-    } else {
-        message = `You Lose! ${computerSelection} beats ${playerSelection}`
-        compScore++;
-    }
-
-    return message;
 }
 
+
+function decideWinner(playerSelection, computerSelection) {
+    if (playerSelection === computerSelection) {
+        return Results.Draw;
+    }
+
+    if ((playerSelection === Items.Rock && computerSelection === Items.Scissors) ||
+         (playerSelection === Items.Paper && computerSelection === Items.Rock) ||
+          (playerSelection === Items.Scissors && computerSelection === Items.Paper))
+    {
+        return Results.Player;
+    }
+
+    return Results.Computer;
+}
+
+function getPlayerChoice() {
+    return prompt(
+        "Pick one of these: Rock, Paper, Scissors",
+        "rock",
+    ).toLowerCase();
+}
 
 function getComputerChoice() {
     let arr = ["rock", "paper", "scissors"];
