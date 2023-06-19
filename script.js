@@ -1,7 +1,7 @@
 const Items = Object.freeze({
-    Rock: "rock",
-    Paper: "paper",
-    Scissors: "scissors",
+    Rock: "Rock",
+    Paper: "Paper",
+    Scissors: "Scissors",
 });
 
 const Results = Object.freeze({
@@ -10,53 +10,53 @@ const Results = Object.freeze({
     Draw: "draw",
 })
 
-const ROUNDS = 5;
-let userScore = 0, compScore = 0;
+const MAX_SCORE = 5;
+let playerScore = 0, compScore = 0;
+let round = 1;
 
 
-function game() {
-    let finalMessage = "Result: ";
+let container = document.querySelector(".container");
+let scoreBoard = container.querySelector(".score");
+let items = container.querySelectorAll(".items");
+let log = container.querySelector(".log");
+let roundCounter = log.querySelector("#roundCounter");
+let message = log.querySelector(".message");
 
-    for (let i = 1; i <= ROUNDS; i++) {
+
+for (let item of items) {
+    item.addEventListener("click", function (event) {
+        let selectedItemByPlayer = event.target.textContent;
         playRound(
-            getPlayerChoice(),
+            selectedItemByPlayer,
             getComputerChoice(),
         );
-    }
 
-    finalMessage += (userScore > compScore) ?
-        "You Won!" : (userScore < compScore) ?
-            "You Lose!" : "Draw!";
-    
-    console.log(`${finalMessage} Score: ${userScore}-${compScore}`);
+        updateScoreBoard(scoreBoard, playerScore, compScore);
+        announceWinner(playerScore, compScore);
+    });
 }
 
-
 function playRound(playerSelection, computerSelection) {
-    /**
-     * rock beats scissors
-     * scissors beats paper
-     * paper beats rock
-     * if players picked same thing it's Draw
-    **/
-
     const result = decideWinner(playerSelection, computerSelection);
+    roundCounter.textContent = `#${round}`;
 
     switch (result) {
         case Results.Player:
-            userScore++;
-            console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
+            playerScore++;
+            message.textContent = `You Win! ${playerSelection} beats ${computerSelection}`;
             break
 
         case Results.Computer:
             compScore++;
-            console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
+            message.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`;
             break
 
         case Results.Draw:
-            console.log("It's Draw!");
+            message.textContent = "It's Draw!";
             break
     }
+
+    round++;
 }
 
 
@@ -75,24 +75,40 @@ function decideWinner(playerSelection, computerSelection) {
     return Results.Computer;
 }
 
-function getPlayerChoice() {
-    return prompt(
-        "Pick one of these: Rock, Paper, Scissors",
-        "rock",
-    ).toLowerCase();
+
+function announceWinner(playerScore, compScore) {
+    if (playerScore >= MAX_SCORE || compScore >= MAX_SCORE) {
+        if (playerScore >= MAX_SCORE)
+            alert("You Win!");
+        if (compScore >= MAX_SCORE)
+            alert("You Lose!");
+
+        clear();
+    }
+}
+
+function clear() {
+    playerScore = 0;
+    compScore = 0;
+
+    updateScoreBoard(scoreBoard);
+    log.textContent = "";
+}
+
+function updateScoreBoard(scoreBoard) {
+    scoreBoard.querySelector("#ps").textContent = playerScore;
+    scoreBoard.querySelector("#cs").textContent = compScore;
 }
 
 function getComputerChoice() {
-    let arr = ["rock", "paper", "scissors"];
+    let arr = [Items.Rock, Items.Paper, Items.Scissors];
     let randomIndex = Math.floor(Math.random() * 3);
-
     return arr[randomIndex];
 }
 
-
-function capitalize(word) {
-    return word[0].toUpperCase() + word.slice(1);
+function init() {
+    updateScoreBoard(scoreBoard);
+    roundCounter.textContent = `#${round}`;
 }
 
-
-game();
+init()
