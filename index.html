@@ -2,10 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>RPS</title>
+    <style>
+        .log {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin-top: 25px;
+            max-width: 250px;
+            min-height: 50px;
+            background: #eee;
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
     <h1>Rock Paper Scissors</h1>
+    
+    <div class="container">
+        <div class="score">
+            <p>Player: <span id="ps"></span></p>
+            <p>Computer: <span id="cs"></span></p>
+        </div>
+        <div class="items">
+            <button class="item" id="rock">Rock</button>
+            <button class="item" id="paper">Paper</button>
+            <button class="item" id="scissors">Scissors</button>
+        </div>
+
+        <fieldset class="log">
+            <legend id="roundCounter"></legend>
+            <div class="message"></div>
+        </fieldset>
+    </div>
+    
     <script src="./script.js"></script>
 </body>
 </html>
